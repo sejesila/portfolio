@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Skill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use function Termwind\render;
 
@@ -31,7 +32,22 @@ class SkillController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'name' => 'required|min:3',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('skills', 'public');
+            Skill::create([
+                'name'=>$request->name,
+                'image'=>$image,
+            ]);
+
+            return Redirect::route('skills.index')->with('success', 'Skill created successfully.');
+        }
+        return Redirect::route('skills.index')->with('error', 'No file uploaded.');
     }
 
     /**
