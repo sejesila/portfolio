@@ -43,7 +43,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('skills.index')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Skillss
+                                    Skills
                                 </NavLink>
                                 <NavLink
                                     :href="route('projects.index')"

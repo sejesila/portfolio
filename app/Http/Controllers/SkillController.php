@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Skill;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use function Termwind\render;
 
 class SkillController extends Controller
 {
@@ -12,7 +14,8 @@ class SkillController extends Controller
      */
     public function index()
     {
-        return 'skills index';
+        return Inertia::render('Skills/Index');
+
     }
 
     /**
@@ -20,7 +23,7 @@ class SkillController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Skills/Create');
     }
 
     /**
