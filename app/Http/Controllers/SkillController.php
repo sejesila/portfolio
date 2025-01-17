@@ -12,7 +12,7 @@ class SkillController extends Controller
      */
     public function index()
     {
-        return 'skill index';
+        return 'skills index';
     }
 
     /**
