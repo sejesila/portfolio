@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\Skill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -20,7 +23,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Projects/Create');
+        $skills = Skill::all();
+        return Inertia::render('Projects/Create',compact('skills'));
     }
 
     /**
@@ -28,7 +32,26 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'name' => 'required|min:3',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'skill_id' => 'required',
+            'project_url'=> 'required|url',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('skills', 'public');
+            Project::create([
+                'skill_id'=>$request->skill_id,
+                'name'=>$request->name,
+                'image'=>$image,
+                'project_url'=>$request->url
+            ]);
+
+            return Redirect::route('projects.index')->with('success', 'Skill created successfully.');
+        }
+        return Redirect::route('projects.index')->with('error', 'No file uploaded.');
     }
 
     /**
