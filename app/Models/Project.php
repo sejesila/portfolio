@@ -10,7 +10,7 @@ class Project extends Model
     use HasFactory;
     protected $fillable = ['skill_id','name','image','project_url'];
 
-    public function skills(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function skill(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Skill::class);
     }

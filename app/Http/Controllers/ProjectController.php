@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Models\Skill;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Projects/Index' );
+        $projects = ProjectResource::collection(Project::with('skill')->get());
+        return Inertia::render('Projects/Index' ,compact('projects'));
     }
 
     /**
@@ -37,7 +39,7 @@ class ProjectController extends Controller
             'name' => 'required|min:3',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'skill_id' => 'required',
-            'project_url'=> 'required|url',
+
         ]);
 
         if ($request->hasFile('image')) {
